@@ -1,0 +1,3 @@
+###### NOMBRE : JAVIER ESTUARDO JIMENEZ GARCÍA
+###### ASIGNATURA: DESARROLLO DE APLICACIONES EN RED
+###### ACTIVIDAD #1 : Laboratorio: Creación de un blog
