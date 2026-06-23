@@ -76,4 +76,29 @@ const { Content } = await render(post);
 	.article-content li {
 		margin-bottom: 8px;
 	}
+
+    .article-content p {
+		margin-bottom: 20px;
+		color: #e2e8f0;
+	}
+
+	/*  AÑADE ESTO PARA HACER LAS IMÁGENES RESPONSIVAS  */
+	.article-content img {
+		max-width: 100%;
+		height: auto;
+		display: block;
+		margin: 30px auto; /* Centra la imagen y le da espacio arriba/abajo */
+		border-radius: 8px; /* Le da bordes redondeados para que luzca más moderna */
+		border: 1px solid #334155; /* Un borde sutil que combina con tu tema oscuro */
+	}
+	
+	/* Estilo opcional para los textos en cursiva (como las leyendas de las fotos) */
+	.article-content em {
+		display: block;
+		text-align: center;
+		font-size: 0.9rem;
+		color: #94a3b8;
+		margin-top: -15px;
+		margin-bottom: 30px;
+	}
 </style>
