@@ -1,0 +1,79 @@
+---
+import { getCollection, render } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+
+export async function getStaticPaths() {
+	const posts = await getCollection('blog');
+	return posts.map((post) => ({
+		// En la nueva versión usamos post.id en lugar de post.slug
+		params: { slug: post.id },
+		props: { post },
+	}));
+}
+
+const { post } = Astro.props;
+// Renderizamos el contenido con la nueva API
+const { Content } = await render(post);
+---
+
+<Layout title={`${post.data.title} | blog-unir`}>
+	<article class="article-wrapper">
+		<header class="article-header">
+			<span class="date">
+				{post.data.pubDate.toLocaleDateString('es-ES', {
+					year: 'numeric',
+					month: 'long',
+					day: 'numeric',
+				})}
+			</span>
+			<h1>{post.data.title}</h1>
+		</header>
+		
+		<div class="article-content">
+			<Content />
+		</div>
+	</article>
+</Layout>
+
+<style is:global>
+	.article-wrapper {
+		background: var(--card-bg);
+		padding: 40px;
+		border-radius: 8px;
+		border: 1px solid #334155;
+	}
+
+	.article-header {
+		margin-bottom: 30px;
+		border-bottom: 1px solid #334155;
+		padding-bottom: 20px;
+	}
+
+	.article-header h1 {
+		font-size: 2.2rem;
+		color: #fff;
+		margin-top: 10px;
+		line-height: 1.3;
+	}
+
+	.article-content h2 {
+		color: #fff;
+		margin: 35px 0 15px;
+		font-size: 1.5rem;
+	}
+
+	.article-content p {
+		margin-bottom: 20px;
+		color: #e2e8f0;
+	}
+
+	.article-content ol, .article-content ul {
+		margin-left: 20px;
+		margin-bottom: 20px;
+		color: #e2e8f0;
+	}
+
+	.article-content li {
+		margin-bottom: 8px;
+	}
+</style>

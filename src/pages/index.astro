@@ -1,17 +1,109 @@
 ---
+import Layout from '../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
 
+// Obtiene los posts y los ordena por fecha de publicación (más reciente primero)
+const posts = (await getCollection('blog')).sort(
+	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<Layout title="blog-unir | Ingeniería de Datos e IA">
+	<section class="intro">
+		<h1>Ingeniería de Datos & Inteligencia Artificial</h1>
+		<p>Espacio dedicado al diseño de arquitecturas de datos, pipelines eficientes y la integración de modelos avanzados de IA.</p>
+	</section>
+
+	<section class="posts-list">
+		{posts.map((post) => (
+			<article class="post-card">
+				<span class="date">
+					{post.data.pubDate.toLocaleDateString('es-ES', {
+						year: 'numeric',
+						month: 'long',
+						day: 'numeric',
+					})}
+				</span>
+				<h2><a href={`/blog/${post.id}`}>{post.data.title}</a></h2>
+				<p>{post.data.description}</p>
+				<div class="tags">
+					{post.data.tags.map((tag) => (
+						<span class="tag">{tag}</span>
+					))}
+				</div>
+			</article>
+		))}
+	</section>
+</Layout>
+
+<style>
+	.intro {
+		margin-bottom: 50px;
+	}
+
+	.intro h1 {
+		font-size: 2.5rem;
+		color: #fff;
+		margin-bottom: 15px;
+		line-height: 1.2;
+	}
+
+	.intro p {
+		font-size: 1.2rem;
+		color: var(--text-muted);
+	}
+
+	.posts-list {
+		display: flex;
+		flex-direction: column;
+		gap: 35px;
+	}
+
+	.post-card {
+		background: var(--card-bg);
+		padding: 30px;
+		border-radius: 8px;
+		border: 1px solid #334155;
+	}
+
+	.date {
+		font-size: 0.85rem;
+		color: var(--primary);
+		font-weight: 600;
+		text-transform: uppercase;
+	}
+
+	.post-card h2 {
+		margin: 10px 0;
+		font-size: 1.6rem;
+	}
+
+	.post-card h2 a {
+		color: #fff;
+		text-decoration: none;
+		transition: color 0.2s;
+	}
+
+	.post-card h2 a:hover {
+		color: var(--primary);
+	}
+
+	.post-card p {
+		color: var(--text-muted);
+		margin-bottom: 15px;
+	}
+
+	.tags {
+		display: flex;
+		gap: 10px;
+	}
+
+	.tag {
+		background: #0f172a;
+		padding: 4px 10px;
+		border-radius: 4px;
+		font-size: 0.8rem;
+		color: #e2e8f0;
+		border: 1px solid #334155;
+	}
+</style>
